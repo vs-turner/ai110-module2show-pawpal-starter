@@ -1,0 +1,57 @@
+%% Mermaid class diagram for PawPal+ system design
+classDiagram
+    class Owner {
+      +String name
+      +String contact_info
+      +Availability availability
+      +Preferences preferences
+      +List~Pet~ pets
+      +add_pet(pet)
+      +remove_pet(pet_id)
+      +update_availability(blocks)
+      +update_preferences(settings)
+    }
+
+    class Pet {
+      +String pet_id
+      +String name
+      +String species
+      +int age
+      +String[] health_conditions
+      +Routine routine
+      +add_routine_task(task)
+      +update_health(condition)
+      +get_daily_needs()
+    }
+
+    class CareTask {
+      +String task_id
+      +String pet_id
+      +String type
+      +int duration
+      +int priority
+      +DateTime deadline
+      +String status
+      +reschedule(new_time)
+      +change_priority(new_priority)
+      +mark_complete()
+      +is_urgent()
+    }
+
+    class Scheduler {
+      +Date date
+      +String owner_id
+      +List~CareTask~ tasks
+      +List~TimeSlot~ time_slots
+      +String explanation_log
+      +load_tasks(owner, date)
+      +generate_plan(constraints)
+      +optimize_task_order()
+      +explain_plan()
+      +validate()
+    }
+
+    Owner "1" -- "*" Pet : owns
+    Pet "1" -- "*" CareTask : has
+    Scheduler ..> Owner : uses
+    Scheduler ..> CareTask : schedules
